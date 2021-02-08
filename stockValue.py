@@ -1,11 +1,8 @@
-import os
-from twilio.rest import Client
 from pandas_datareader import data
 from pandas_datareader._utils import RemoteDataError
 from datetime import datetime
 import pandas as pd
 import numpy as np
-from decouple import config
 
 
 #START_DATE = '2021-01-01'
@@ -38,34 +35,23 @@ def get_change(data):
     #total change
     change = newest - rec_old
     change = (change / rec_old) * 100
+    change = str(round(change, 2))
     return change
 
-# API_USERNAME = config('USER')
-# API_KEY = config('KEY')
-account_sid = config('SID')
-print(account_sid)
-# auth_token = os.environ[""]
-# auth_token = ""
-#
-# client = Client(account_sid, auth_token)
-#
-# client.messages.create(
-#     to="",
-#     from_="",
-#     body="This is a test"
-# )
+def get_values(tickers):
+    stockDict = {}
+    for value in tickers:
+        #print(value[:len(value) - 1])
+        i = get_change(get_data(value[:len(value) - 1]))
+        stockDict[value] = i
+    return stockDict
 
 
 #get stock watchlist
+filename = "watchlist.txt"
+with open(filename) as f:
+    content = f.readlines()
 
-
-i = get_data('TSLA')
-print(i)
-print(type(i))
-print(len(i))
-val = get_change(i)
-#get price of stock and day change
-
-
-#format text to user
-#send text
+#get day change of each stock on watchlist and store in dictionary
+info = get_values(content)
+print(info)
