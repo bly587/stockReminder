@@ -50,8 +50,8 @@ print(account_sid)
 # client = Client(account_sid, auth_token)
 #
 # client.messages.create(
-#     to="+18082061617",
-#     from_="+12672637427",
+#     to="",
+#     from_="",
 #     body="This is a test"
 # )
 
