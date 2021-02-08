@@ -36,22 +36,32 @@ def get_change(data):
     change = newest - rec_old
     change = (change / rec_old) * 100
     change = str(round(change, 2))
-    return change
+    return [change, str(round(newest, 2))]
+
+def formatDict(dict):
+    str = "S: P: %"
+    for key in dict.keys():
+        str += "\n" + key[:len(key) - 1] + ": " +dict.get(key)[1]+ ": " +dict.get(key)[0] +"%"
+    #print(str)
+    return str
 
 def get_values(tickers):
     stockDict = {}
     for value in tickers:
-        #print(value[:len(value) - 1])
+        #get %change and current price
         i = get_change(get_data(value[:len(value) - 1]))
         stockDict[value] = i
-    return stockDict
+    final = formatDict(stockDict)
+    return final
 
 
-#get stock watchlist
-filename = "watchlist.txt"
-with open(filename) as f:
-    content = f.readlines()
 
-#get day change of each stock on watchlist and store in dictionary
-info = get_values(content)
-print(info)
+# #get stock watchlist
+# filename = "watchlist.txt"
+# with open(filename) as f:
+#     content = f.readlines()
+#
+# #get day change of each stock on watchlist and store in dictionary
+# info = get_values(content)
+#
+# formatDict(info)
